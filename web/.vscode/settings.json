@@ -1,0 +1,17 @@
+{
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact"
+  ],
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll": true
+  },
+  "editor.tabSize": 2,
+  "typescript.suggest.autoImports": true,
+  "[typescriptreact]": {
+    "editor.formatOnSave": false,
+  },
+  "git.autofetch": true
+}
