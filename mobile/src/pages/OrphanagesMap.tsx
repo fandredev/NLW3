@@ -1,50 +1,75 @@
-import React from 'react'
-import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps'
+import React, { useState } from 'react'
+import MapView, { Marker, Callout } from 'react-native-maps';
 import { Feather } from '@expo/vector-icons'
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import mapMarker from '../images/map-marker.png'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { RectButton } from 'react-native-gesture-handler';
+import api from '../services/api';
+
+interface Orphanage {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
 
 
 export default function OrphanagesMap(){
+  const [orphanages, setOrphanages] = useState<Orphanage[]>([])
   const { navigate } = useNavigation()
-  function handleNavigateToDetailsScreen(){
-    navigate('OrphanagesDetails')
+
+  useFocusEffect(() => {
+    api.get('orphanages').then(response => setOrphanages(response.data))
+  })
+
+  function handleNavigateToDetailsScreen(id: number){
+    navigate('OrphanagesDetails', { id })
   }
+
+  function handleNavigateToCreateOrphanage(){
+    navigate('SelectMapPosition')
+  }
+
   return (
     <View style={styles.container}>
       <MapView
-        provider={PROVIDER_GOOGLE}
         style={styles.map}
         initialRegion={{
           latitude: 23.5429886,
           longitude: -46.7575315,
           latitudeDelta: 0.001,
-          longitudeDelta: 0.001 }}
+          longitudeDelta: 0.001
+          }}
         >
-          <Marker
-            icon={mapMarker}
-            calloutAnchor={{
-              x: 2.7,
-              y: 0.8
-            }}
-            coordinate={{
-            latitude: 23.5429886,
-            longitude: -46.7575315,
-            }}
-          >
-            <Callout tooltip onPress={handleNavigateToDetailsScreen}>
-              <View style={styles.calloutContainer}>
-                  <Text style={styles.calloutText}>Lar das meninas</Text>
-              </View>
-            </Callout>
-          </Marker>
+          {orphanages.map(orphanage => {
+            return (
+              <Marker
+                key={orphanage.id}
+                icon={mapMarker}
+                calloutAnchor={{
+                  x: 2.7,
+                  y: 0.8
+                }}
+                coordinate={{
+                latitude: orphanage.latitude,
+                longitude: orphanage.longitude,
+                }}
+              >
+                <Callout tooltip onPress={() => handleNavigateToDetailsScreen(orphanage.id)}>
+                  <View style={styles.calloutContainer}>
+                      <Text style={styles.calloutText}>{orphanage.name}</Text>
+                  </View>
+                </Callout>
+              </Marker>
+            )
+          })}
         </MapView>
         <View style={styles.footer}>
-          <Text style={styles.footerText}> 2 orfanatos encontrados</Text>
-          <TouchableOpacity style={styles.createOrphanageButton} onPress={() => {}}>
+          <Text style={styles.footerText}> {orphanages.length} orfanatos encontrados</Text>
+          <RectButton style={styles.createOrphanageButton} onPress={handleNavigateToCreateOrphanage}>
               <Feather name="plus" size={20} color="#fff"/>
-          </TouchableOpacity>
+          </RectButton>
         </View>
     </View>
   )
