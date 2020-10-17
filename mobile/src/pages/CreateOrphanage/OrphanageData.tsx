@@ -6,6 +6,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 import api from '../../services/api';
+import SuccessRegisterOrphanage from '../SuccessRegisterOrphanage';
 
 interface OrphanageDataRouteParams {
   position: {
@@ -48,7 +49,7 @@ export default function OrphanageData() {
 
     await api.post('orphanages', data)
 
-    navigation.navigate('OrphanagesMap')
+    navigation.navigate('SuccessRegisterOrphanage')
   }
 
   async function handleSelectImages() {
