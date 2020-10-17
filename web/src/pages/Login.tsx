@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-import logo from '../assets/images/map-marker.svg'
-import happyText from '../assets/images/happyText.png'
+import React, { ChangeEvent, useState } from 'react'
+import { WrapperApplication } from '../utils/cssProperties'
 
-import { WrapperApplication, Section, FormContainer } from '../styles/pages/login'
+import { FormContainer } from '../styles/pages/login'
 
-import arrowLeft from '../assets/icons/Arrow.png'
+import WelcomeHappy from '../components/WelcomeHappy'
+import ArrowLeftHeader from '../components/WelcomeHappy/ArrowLeft'
+import Button from '../components/WelcomeHappy/Button'
+import Input from '../components/WelcomeHappy/Input'
 
 export default function Login(){
   const [email, setEmail] = useState('')
@@ -13,39 +15,25 @@ export default function Login(){
 
   return (
     <WrapperApplication>
-      <Section>
-        <img src={logo} alt="Happy" />
-        <img src={happyText} alt="Happy" id="happyText" />
-          <span>Jaguaré</span>
-          <span>São Paulo</span>
-      </Section>
+      <WelcomeHappy />
       <FormContainer>
-        <>
-        </>
+
         <form action="">
-          <header>
-            <button type="button">
-              <img src={arrowLeft} />
-            </button>
-          </header>
+          <ArrowLeftHeader />
           <h2>Fazer Login</h2>
-          <label htmlFor="email">E-mail</label>
-              <input
-                type="text"
-                name="email"
+            <label htmlFor="email">E-mail</label>
+              <Input
+                type="email"
                 id="email"
                 value={email}
-                onChange={event => setEmail(event.target.value)}
-                placeholder=''
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
               />
             <label htmlFor="password">Senha</label>
-              <input
+              <Input
                 type="password"
-                name="password"
                 id="password"
                 value={password}
-                onChange={event => setPassword(event.target.value)}
-                placeholder=''
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
               />
               <aside>
                 <input
@@ -58,9 +46,9 @@ export default function Login(){
                 <span>Lembrar-me</span>
                 <span>Esqueci minha senha</span>
               </aside>
-              <button type="button">
+              <Button type="button">
                 Entrar
-              </button>
+              </Button>
             </form>
       </FormContainer>
     </WrapperApplication>
