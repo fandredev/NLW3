@@ -5,7 +5,7 @@ export const Header = styled.header`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-    > button {
+    > a button {
       border-radius: 16px;
       border-color: transparent;
       width: 50px;

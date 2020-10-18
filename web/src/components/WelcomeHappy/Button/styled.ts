@@ -8,6 +8,7 @@ export const Button = styled.button`
   border: 1px solid #37c77f;
   color: #fff;
   cursor: pointer;
+  transition: all .2s ease-in-out;
 
   &:hover {
     opacity: .7
